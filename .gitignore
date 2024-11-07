@@ -11,6 +11,7 @@ logs/
 
 # Environment variables
 .env
+.env.local
 
 # OS generated files
 .DS_Store
@@ -21,5 +22,5 @@ Thumbs.db
 .idea/
 *.swp
 
-# env
-.env.local
+# Build files
+dist/

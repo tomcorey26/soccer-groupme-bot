@@ -1,4 +1,5 @@
-import dotenv from 'dotenv';
+import { groupMeApi } from './utils/groupMeApi';
 
-// Load environment variables from .env file
-dotenv.config();
+groupMeApi.sendMessage(
+  `Sup bitches, I am the lighting bot. I am going to post an attendence poll every tuesday with the date and time of the game`
+);
