@@ -5,6 +5,15 @@ const client = axios.create({
   baseURL: 'https://api.groupme.com/v3',
 });
 
+// If there is errors log them
+client.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('Error in botApi', error);
+    return Promise.reject(error);
+  }
+);
+
 class BotApi {
   token: string = appConfig.API_TOKEN;
 

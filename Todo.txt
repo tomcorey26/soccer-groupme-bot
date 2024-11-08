@@ -2,12 +2,15 @@
     - Notion Api?
 
 - Posts a poll each week on who is going to go to the game
-    - Fetch data from google calendar api?
-    - Maybe use webscraper to hit website?
+    - Fetch data from google calendar api
+    - Pins the message 
+    - Creates a poll from my account
+
 - Deploy to serverless that only spins up when the callback url is hit
 
 
 - Commands
-    - !record - Outputs or record
+    - !record - Outputs our record
     - !game - The date and time of the next game
     - !fees - Outputs list of people that owe me
+    - !stats - Leading goal scorers
