@@ -8,9 +8,10 @@ type AppConfig = {
   API_TOKEN: string;
   BOT_ID: string;
   GROUP_ID: string;
+  TEST_MODE?: boolean;
 };
 
-const getEnvVar = (key: string): string => {
+const getRequiredEnvVar = (key: string): string => {
   const value = process.env[key];
   if (!value) {
     throw new Error(`Environment variable ${key} is not defined`);
@@ -20,9 +21,10 @@ const getEnvVar = (key: string): string => {
 
 const appConfig: AppConfig = {
   PORT: Number(process.env.PORT) || 3000,
-  API_TOKEN: getEnvVar('API_TOKEN'),
-  BOT_ID: getEnvVar('BOT_ID'),
-  GROUP_ID: getEnvVar('GROUP_ID'),
+  API_TOKEN: getRequiredEnvVar('API_TOKEN'),
+  BOT_ID: getRequiredEnvVar('BOT_ID'),
+  GROUP_ID: getRequiredEnvVar('GROUP_ID'),
+  TEST_MODE: process.env.TEST_MODE === 'true',
 };
 
 export { appConfig };

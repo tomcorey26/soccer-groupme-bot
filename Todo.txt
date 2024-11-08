@@ -2,9 +2,11 @@
     - Notion Api?
 
 - Posts a poll each week on who is going to go to the game
-    - Fetch data from google calendar api
+    - Fetch data from google calendar api. (I manually fetched and stored it here)
+    - Post picture of game schedule
     - Pins the message 
     - Creates a poll from my account
+    - Test by adding fake dates
 
 - Deploy to serverless that only spins up when the callback url is hit
 

@@ -1,11 +1,19 @@
+import { appConfig } from './config';
 import { schedule } from './data/schedule';
-import { botApi } from './utils/botApi';
+import { groupmeApi } from './utils/groupMeApi';
 
 class LightningBot {
   // We are under the assumption that this function will be called on game day
   public async postGameDayDetails() {
     // Get the current date
     const currentDate = new Date();
+
+    if (appConfig.TEST_MODE) {
+      // set date to next Tuesday
+      currentDate.setDate(
+        currentDate.getDate() + ((2 + 7 - currentDate.getDay()) % 7)
+      );
+    }
 
     const isTuesday = currentDate.getDay() === 2;
     if (!isTuesday) {
@@ -22,12 +30,12 @@ class LightningBot {
     });
 
     if (!currentGame) {
-      botApi.postMessage(`No game this week fellas, it's a bye week`);
+      groupmeApi.bots.postMessage(`No game this week fellas, it's a bye week`);
       return;
     }
 
     const gameDate = new Date(currentGame.time.dateTime);
-    await botApi.postMessage(
+    await groupmeApi.bots.postMessage(
       `GAME DAY 🚨 (${gameDate.getMonth()}/${gameDate.getDate()}/${gameDate.getFullYear()})`
     );
     const formattedTime = gameDate.toLocaleTimeString([], {
@@ -35,12 +43,23 @@ class LightningBot {
       minute: '2-digit',
     });
 
-    await botApi.postMessage(
+    await groupmeApi.bots.postMessage(
       `Summary: ${currentGame.summary}\n` +
         `Location: ${currentGame.location}\n` +
         `Time: ${formattedTime}\n` +
         `Let's get this bread 🍞`
     );
+
+    // Create a poll for the game, expires at end of the day
+    await groupmeApi.polls.createPoll({
+      subject: `Game Tonight at ${formattedTime}, you going?`,
+      options: [{ title: 'Yes' }, { title: 'No' }],
+      expiration: Math.floor(
+        new Date(currentDate.setHours(23, 59, 59, 999)).getTime() / 1000
+      ),
+      type: 'single',
+      visibility: 'public',
+    });
   }
 }
 
