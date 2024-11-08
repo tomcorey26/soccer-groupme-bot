@@ -30,25 +30,35 @@ class LightningBot {
     });
 
     if (!currentGame) {
-      groupmeApi.bots.postMessage(`No game this week fellas, it's a bye week`);
+      groupmeApi.messages.postMessage(`No game this week fellas, bye week`);
       return;
     }
 
     const gameDate = new Date(currentGame.time.dateTime);
-    await groupmeApi.bots.postMessage(
-      `GAME DAY 🚨 (${gameDate.getMonth()}/${gameDate.getDate()}/${gameDate.getFullYear()})`
-    );
     const formattedTime = gameDate.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     });
 
-    await groupmeApi.bots.postMessage(
-      `Summary: ${currentGame.summary}\n` +
+    const res = await groupmeApi.messages.postMessage(
+      `GAME DAY 🚨 (${gameDate.getMonth()}/${gameDate.getDate()}/${gameDate.getFullYear()})\n` +
+        `Summary: ${currentGame.summary}\n` +
         `Location: ${currentGame.location}\n` +
         `Time: ${formattedTime}\n` +
         `Let's get this bread 🍞`
     );
+
+    // Check if any pinned messages exist and unpin them
+    const pinnedMessages = await groupmeApi.pins.listPinnedMessages();
+    if (pinnedMessages.data.response.messages.length > 0) {
+      for (const message of pinnedMessages.data.response.messages) {
+        await groupmeApi.pins.unpinMessage(message.id);
+      }
+    }
+
+    // Pin the message
+    const gameSummaryMessageId = res.data.response.message.id;
+    await groupmeApi.pins.pinMessage(gameSummaryMessageId);
 
     // Create a poll for the game, expires at end of the day
     await groupmeApi.polls.createPoll({
