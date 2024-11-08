@@ -5,10 +5,10 @@ const client = axios.create({
   baseURL: 'https://api.groupme.com/v3',
 });
 
-class GroupMeApi {
+class BotApi {
   token: string = appConfig.API_TOKEN;
 
-  async sendMessage(message: string) {
+  async postMessage(message: string) {
     const data = {
       bot_id: appConfig.BOT_ID,
       text: message,
@@ -17,4 +17,4 @@ class GroupMeApi {
   }
 }
 
-export const groupMeApi = new GroupMeApi();
+export const botApi = new BotApi();

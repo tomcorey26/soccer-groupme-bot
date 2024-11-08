@@ -1,0 +1,7 @@
+- Fetches google sheets data on who hasn’t paid, and drops a message with my Venmo
+    - Notion Api?
+
+- Posts a poll each week on who is going to go to the game
+    - Fetch data from google calendar api?
+    - Maybe use webscraper to hit website?
+- Deploy to serverless that only spins up when the callback url is hit
